@@ -1,11 +1,11 @@
 {
-  "name": "plate",
-  "description": "Plate helps you write less callbacks",
+  "name": "ship",
+  "description": "Ship helps you write less callbacks",
   "version": "0.0.1",
-  "homepage": "http://github.com/sam-mccall/node-plate",
-  "repository": "git://github.com/sam-mccall/node-plate.git",
+  "homepage": "http://github.com/sam-mccall/ship",
+  "repository": "git://github.com/sam-mccall/ship.git",
   "author": "Sam McCall <sam.mccall@gmail.com>",
-  "main": "./lib/plate",
+  "main": "./lib/ship",
   "engines": {
     "node": "*"
   },

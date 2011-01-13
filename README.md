@@ -1,6 +1,6 @@
-# Plate
+# Ship
 
-Plate lets you write less callbacks.
+Ship lets you write less callbacks.
 
 ## Introduction 
 
@@ -23,7 +23,7 @@ But quickly becomes verbose and tangled:
     }
 
 What about this:
-    var pfs = plate(fs);
+    var pfs = ship(fs);
     pfs.writeFile('/etc/passwd.bak', pfs.readFile('/etc/passwd'));
     pfs.end(function(err) { 
     	if(err) throw err; 
@@ -43,7 +43,7 @@ Before:
     }
 
 After:
-    var pthing = plate(new Thing());
+    var pthing = ship(new Thing());
     thing.asyncOne().asyncTwo().end(function(err, result) {
     	if(err) throw err;
     	console.log("Success: result");
@@ -51,7 +51,7 @@ After:
 
 ## How it works
 
-The things returned by plate, and subsequent method calls, are basically promises. 
+The things returned by ship, and subsequent method calls, are basically promises. 
 
 Things will be done to the actual objects in the same order as you do things to the promises.
 
@@ -59,7 +59,7 @@ If a function invoked on a promise takes another promise as a parameter, the val
 
 ## API
 
-### plate(obj)
+### ship(obj)
 
 Returns: a promise for obj
 
@@ -97,7 +97,7 @@ Returns: promise (for chaining)
 
 ### promise.end(cb)
 
-Starts the queue. This must only be done once per queue (i.e per call to plate()).
+Starts the queue. This must only be done once per queue (i.e per call to ship()).
 
 Upon completion, cb will be called. If there was an error, it will be the first argument. 
 Otherwise the first argument is null, and the second argument is the value of this promise.
@@ -107,7 +107,7 @@ Returns: undefined.
 ## Limitations
 
 This works: 
-    var pthing = plate(new Thing());
+    var pthing = ship(new Thing());
     var derivedValue = pthing.getValue();
     pthing.doSomething(derivedValue); // passes the actual value, not the promise
 
@@ -115,5 +115,5 @@ This can never work:
     console.log(derivedValue); // passes the promise
 
 This doesn't either, but maybe one day:
-    var pconsole = plate(console); // each call to plate() creates an independent queue
+    var pconsole = ship(console); // each call to ship() creates an independent queue
     pconsole.log(derivedValue);    // you can't mix promises from different queues

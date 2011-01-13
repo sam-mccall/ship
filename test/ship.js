@@ -1,5 +1,5 @@
 var assert = require('assert');
-var plate = require (__dirname+'/../lib/plate');
+var ship = require (__dirname+'/../lib/ship');
 
 function Mock(){
 	this.history = [];
@@ -48,9 +48,9 @@ exports.simple = function() {
 		assert.deepEqual(m1.history, ['asyncReturningSelf']);
 	});
 
-	// plate style
+	// ship style
 	var m2 = new Mock();
-	var pm2 = plate(m2);
+	var pm2 = ship(m2);
 	var t2 = setTimeout(function() { assert.fail('never called back'); }, 100);
 	pm2.asyncReturningSelf().end(function(err, data) {
 		clearTimeout(t2);
@@ -79,10 +79,10 @@ exports.chain = function() {
 		});
 	});
 
-	// plate style
+	// ship style
 	var n1 = new Mock();
 	var t2 = setTimeout(function() { assert.fail('never reached end'); }, 100);
-	var pn1 = plate(n1);
+	var pn1 = ship(n1);
 	pn1.asyncReturningNew().asyncReturningSelf().end(function(err, n2) {
 		clearTimeout(t2);
 		assert.equal(err, null);
@@ -109,12 +109,12 @@ exports.sequence = function() {
 		});
 	});
 
-	// plate style
+	// ship style
 	var t2 = setTimeout(function() { assert.fail('never reached end'); }, 500);
 	var t3 = setTimeout(function() { assert.fail('never delivered value1'); }, 500);
 	var t4 = setTimeout(function() { assert.fail('never delivered value2'); }, 500);
 	var m2 = new Mock();
-	var pm2 = plate(m2);
+	var pm2 = ship(m2);
 	pm2.asyncReturningValue(1, 100).deliver(function(value){
 		clearTimeout(t3);
 		assert.equal(value, 1);
@@ -134,7 +134,7 @@ exports.property = function() {
 
 	var t1 = setTimeout(function(){ assert.fail("property: Didn't get to end"); }, 100);
 	var m = new Mock();
-	var pm = plate(m);
+	var pm = ship(m);
 	pm.asyncReturningObjectContainingSelf().value().asyncReturningSelf().end(function(err,x) {
 		clearTimeout(t1);
 		assert.equal(err, null);
@@ -147,7 +147,7 @@ exports.sync = function() {
 
 	var t1 = setTimeout(function(){ assert.fail("sync: Didn't get to end"); }, 100);
 	var m = new Mock();
-	var pm = plate(m);
+	var pm = ship(m);
 	pm.asyncReturningSelf().syncReturningSelf$().asyncReturningSelf().end(function(err,x) {
 		clearTimeout(t1);
 		assert.equal(err, null);
